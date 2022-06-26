@@ -1,0 +1,53 @@
+<!-- 4.	Build a complete UI by using jquery on presentation, real server side with 
+    database where scenario is very simple, if we give pincode, areaname should
+ appear.In one textbox we type pincode, when blur event occurs show the area 
+ name next to the pincode textbox. -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
+        $(() => {
+
+            $("#pin").blur(() => {
+
+                let pin = { p: $("#pin").val() };
+                console.log(pin);
+                let output = {
+
+                    data: pin,
+                    url: "http://localhost:800/inarea",
+                    type: 'get',
+                    dataType: "json",
+                    success: (ot) => {
+                        $("#area").val(ot.msg);
+                    },
+                    error: (ot) => {
+                        console.log("Failed to contact server");
+                    }
+                }// end of object
+
+                $.ajax(output);
+
+            });//end of blur event
+
+
+        });// end of dom event
+    </script>
+</head>
+
+<body>
+    <h1>Area and location</h1>
+    <br>
+    <input type="text" name="pin" id="pin" placeholder="pincode"><br><br>
+    <input type="text" name="area" id="area" placeholder="area">
+</body>
+
+</html>
